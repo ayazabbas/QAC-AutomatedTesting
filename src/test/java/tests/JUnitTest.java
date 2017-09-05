@@ -1,4 +1,4 @@
-package ayaz.autoTesting;
+package tests;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -38,7 +38,7 @@ public class JUnitTest {
 
 	@Test
 	public void passingLogLevelTest() {
-		ExtentTest passingLogLevelTest = reportManager.setUpTest();
+		ExtentTest passingLogLevelTest = reportManager.setUpTest("passingLogLevelTest");
 		passingLogLevelTest.log(Status.INFO, "Info level message to show information that allows a NON-TECHNICAL" + " person to understand what the test is doing");
 		passingLogLevelTest.log(Status.DEBUG, "Debug level message to display any information a TECHNICAL person might need to know");
 		passingLogLevelTest.pass("Training.Example passing test");
@@ -46,7 +46,7 @@ public class JUnitTest {
 	
 	@Test
 	public void failingLogLevelTest() throws IOException {
-		ExtentTest extentTest = reportManager.setUpTest();
+		ExtentTest extentTest = reportManager.setUpTest("failingLogLevelTest");
 		extentTest.log(Status.WARNING, "Used to report an issue that may cause problems within a system");
 		webDriver.navigate().to("http://www.facebook.com");
 		String imagePath = ScreenShot.take(webDriver, "image");

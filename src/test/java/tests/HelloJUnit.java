@@ -1,4 +1,4 @@
-package ayaz.autoTesting;
+package tests;
 
 import org.junit.Test;
 

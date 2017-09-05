@@ -1,4 +1,4 @@
-package ayaz.autoTesting;
+package tests;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -37,10 +37,7 @@ public class ExtentReportManager {
         return tests.get(testName);
     }
 
-    public ExtentTest setUpTest(){
-        Exception e = new Exception();
-        e.fillInStackTrace();
-        String testName = e.getStackTrace()[1].getMethodName();
+    public ExtentTest setUpTest(String testName){
         ExtentTest test = report.createTest(testName);
         tests.put(testName,test);
         return tests.get(testName);
