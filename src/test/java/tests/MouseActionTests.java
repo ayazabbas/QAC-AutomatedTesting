@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -31,7 +30,7 @@ public class MouseActionTests {
 	private static WebDriver driver;
 	private MouseDemoDraggable draggablePage;
 	private MouseDemoDroppable droppablePage;
-	private FluentWait<WebDriver> wait;
+	private static FluentWait<WebDriver> wait;
 	private static ExtentTest extentTest;
 	private static ExtentReportManager reportManager;
 
@@ -43,13 +42,8 @@ public class MouseActionTests {
 				"Basic Extent Report", "Basic Report");
 		reportDetails.setTheme(Theme.DARK);
 		reportManager = new ExtentReportManager(ExtentReportManager.ReportType.HTML, reportDetails);
-	}
-
-	@Before
-	public void setUp() {
 		wait = new FluentWait<WebDriver>(driver).withTimeout(10, TimeUnit.SECONDS)
-				.pollingEvery(200, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class)
-				.ignoring(NoSuchElementException.class);
+				.pollingEvery(200, TimeUnit.MILLISECONDS).ignoring(NoSuchElementException.class);
 	}
 
 	@Test
@@ -67,7 +61,7 @@ public class MouseActionTests {
 			assertTrue(!dragBox.getLocation().equals(startLocation));
 			extentTest.pass("testDefaultDrag passed");
 		} catch (AssertionError e) {
-			String details = "testDefaultDrag failed: " + e.getMessage();
+			String details = "testDefaultDrag failed due to AssertionError: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testDefaultDragFail"));
 			Assert.fail(details);
@@ -85,18 +79,18 @@ public class MouseActionTests {
 		extentTest.info(
 				"This test will move the vertically draggable box on the constrain movement tab of the draggable page and check that only its y coordinate has changed.");
 		try {
-		driver.navigate().to("http://demoqa.com/draggable/");
-		draggablePage = new MouseDemoDraggable(driver);
-		draggablePage.getConstrainTab().click();
-		WebElement verticalDragBox = draggablePage.getVerticalDrag();
-		wait.until(ExpectedConditions.elementToBeClickable(verticalDragBox));
-		Point startLocation = verticalDragBox.getLocation();
-		dragAndDrop(100, 100, verticalDragBox);
-		assertTrue(verticalDragBox.getLocation().getX() == startLocation.getX()
-				&& verticalDragBox.getLocation().getY() != startLocation.getY());
-		extentTest.pass("testVerticalDrag passed");
+			driver.navigate().to("http://demoqa.com/draggable/");
+			draggablePage = new MouseDemoDraggable(driver);
+			draggablePage.getConstrainTab().click();
+			WebElement verticalDragBox = draggablePage.getVerticalDrag();
+			wait.until(ExpectedConditions.elementToBeClickable(verticalDragBox));
+			Point startLocation = verticalDragBox.getLocation();
+			dragAndDrop(100, 100, verticalDragBox);
+			assertTrue(verticalDragBox.getLocation().getX() == startLocation.getX()
+					&& verticalDragBox.getLocation().getY() != startLocation.getY());
+			extentTest.pass("testVerticalDrag passed");
 		} catch (AssertionError e) {
-			String details = "testVerticalDrag failed: " + e.getMessage();
+			String details = "testVerticalDrag failed due to AssertionError: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testVerticalDragFail"));
 			Assert.fail(details);
@@ -114,22 +108,22 @@ public class MouseActionTests {
 		extentTest.info(
 				"This test will move the horizontally draggable box on the constrain movement tab of the draggable page and check that only its x coordinate has changed.");
 		try {
-		driver.navigate().to("http://demoqa.com/draggable/");
-		draggablePage = new MouseDemoDraggable(driver);
-		draggablePage.getConstrainTab().click();
-		WebElement horizontalDragBox = draggablePage.getHorizontalDrag();
-		wait.until(ExpectedConditions.elementToBeClickable(horizontalDragBox));
-		Point startLocation = horizontalDragBox.getLocation();
-		dragAndDrop(100, 100, horizontalDragBox);
-		assertTrue(horizontalDragBox.getLocation().getX() != startLocation.getX()
-				&& horizontalDragBox.getLocation().getY() == startLocation.getY());
-		extentTest.pass("testHorizontalDrag passed");
+			driver.navigate().to("http://demoqa.com/draggable/");
+			draggablePage = new MouseDemoDraggable(driver);
+			draggablePage.getConstrainTab().click();
+			WebElement horizontalDragBox = draggablePage.getHorizontalDrag();
+			wait.until(ExpectedConditions.elementToBeClickable(horizontalDragBox));
+			Point startLocation = horizontalDragBox.getLocation();
+			dragAndDrop(100, 100, horizontalDragBox);
+			assertTrue(horizontalDragBox.getLocation().getX() != startLocation.getX()
+					&& horizontalDragBox.getLocation().getY() == startLocation.getY());
+			extentTest.pass("testHorizontalDrag passed");
 		} catch (AssertionError e) {
-			String details = "testHorizontalDrag failed: " + e.getMessage();
+			String details = "testHorizontalDrag failed due to AssertionError: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testHorizontalDragFail"));
 			Assert.fail(details);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			String details = "testHorizontalDrag failed: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testHorizontalDragFail"));
@@ -143,20 +137,20 @@ public class MouseActionTests {
 		extentTest.info(
 				"This test will move the draggable box on the default tab of the droppable page into the 'drop here' box.");
 		try {
-		driver.navigate().to("http://demoqa.com/droppable/");
-		droppablePage = new MouseDemoDroppable(driver);
-		WebElement dragBox = droppablePage.getDefaultDragBox();
-		WebElement targetBox = droppablePage.getDefaultTargetBox();
-		wait.until(ExpectedConditions.elementToBeClickable(dragBox));
-		dragAndDrop(dragBox, targetBox);
-		assertEquals(droppablePage.getDefaultTargetBoxText(), "Dropped!");
-		extentTest.pass("testDragAndDrop passed");
+			driver.navigate().to("http://demoqa.com/droppable/");
+			droppablePage = new MouseDemoDroppable(driver);
+			WebElement dragBox = droppablePage.getDefaultDragBox();
+			WebElement targetBox = droppablePage.getDefaultTargetBox();
+			wait.until(ExpectedConditions.elementToBeClickable(dragBox));
+			dragAndDrop(dragBox, targetBox);
+			assertEquals(droppablePage.getDefaultTargetBoxText(), "Dropped!");
+			extentTest.pass("testDragAndDrop passed");
 		} catch (AssertionError e) {
-			String details = "testDragAndDrop failed: " + e.getMessage();
+			String details = "testDragAndDrop failed due to AssertionError: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testDragAndDropFail"));
 			Assert.fail(details);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			String details = "testDragAndDrop failed: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testDragAndDropFail"));
@@ -170,35 +164,35 @@ public class MouseActionTests {
 		extentTest.info(
 				"This test will go to the shopping cart tab on the droppable page and add 'Buckit Shirt', 'Black Leather' and 'iPhone' to the cart.");
 		try {
-		driver.navigate().to("http://demoqa.com/droppable/");
-		droppablePage = new MouseDemoDroppable(driver);
+			driver.navigate().to("http://demoqa.com/droppable/");
+			droppablePage = new MouseDemoDroppable(driver);
 
-		WebElement shoppingCartTab = droppablePage.getShoppingCartTab();
-		wait.until(ExpectedConditions.elementToBeClickable(shoppingCartTab));
-		shoppingCartTab.click();
-		WebElement bucketShirt = droppablePage.getBucketShirt();
-		WebElement shoppingCart = droppablePage.getShoppingCart();
-		dragAndDrop(bucketShirt, shoppingCart);
+			WebElement shoppingCartTab = droppablePage.getShoppingCartTab();
+			wait.until(ExpectedConditions.elementToBeClickable(shoppingCartTab));
+			shoppingCartTab.click();
+			WebElement bucketShirt = droppablePage.getBucketShirt();
+			WebElement shoppingCart = droppablePage.getShoppingCart();
+			dragAndDrop(bucketShirt, shoppingCart);
 
-		droppablePage.getBagsTab().click();
-		WebElement blackLeather = droppablePage.getBlackLeather();
-		wait.until(ExpectedConditions.invisibilityOf(bucketShirt));
-		dragAndDrop(blackLeather, shoppingCart);
+			droppablePage.getBagsTab().click();
+			WebElement blackLeather = droppablePage.getBlackLeather();
+			wait.until(ExpectedConditions.invisibilityOf(bucketShirt));
+			dragAndDrop(blackLeather, shoppingCart);
 
-		droppablePage.getGadgetsTab().click();
-		WebElement iPhone = droppablePage.getiPhone();
-		wait.until(ExpectedConditions.invisibilityOf(blackLeather));
-		dragAndDrop(iPhone, shoppingCart);
-		String cartText = shoppingCart.getText();
-		assertTrue(
-				cartText.contains("Buckit Shirt") && cartText.contains("Black Leather") && cartText.contains("iPhone"));
-		extentTest.pass("testShoppingCart passed");
+			droppablePage.getGadgetsTab().click();
+			WebElement iPhone = droppablePage.getiPhone();
+			wait.until(ExpectedConditions.invisibilityOf(blackLeather));
+			dragAndDrop(iPhone, shoppingCart);
+			String cartText = shoppingCart.getText();
+			assertTrue(cartText.contains("Buckit Shirt") && cartText.contains("Black Leather")
+					&& cartText.contains("iPhone"));
+			extentTest.pass("testShoppingCart passed");
 		} catch (AssertionError e) {
-			String details = "testShoppingCart failed: " + e.getMessage();
+			String details = "testShoppingCart failed due to AssertionError: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testShoppingCartFail"));
 			Assert.fail(details);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			String details = "testShoppingCart failed: " + e.getMessage();
 			extentTest.fail(details);
 			extentTest.addScreenCaptureFromPath(ScreenShot.take(driver, "testShoppingCartFail"));
@@ -215,7 +209,7 @@ public class MouseActionTests {
 			extentTest.warning(details);
 		}
 	}
-	
+
 	@AfterClass
 	public static void cleanUp() {
 		reportManager.clearTests();
