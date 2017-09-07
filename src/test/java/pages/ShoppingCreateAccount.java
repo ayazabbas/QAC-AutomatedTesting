@@ -8,7 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 public class ShoppingCreateAccount {
 
 	WebDriver driver;
-
+	@FindBy(xpath = "*[@id=\"noSlide\"]/h1")
+	WebElement pageTitle;
 	@FindBy(xpath = "//*[@id=\"id_gender1\"]")
 	WebElement mrRadioButton;
 	@FindBy(xpath = "//*[@id=\"id_gender2\"]")
@@ -165,4 +166,9 @@ public class ShoppingCreateAccount {
 		return alertBox;
 	}
 
+	public WebElement getPageTitle() {
+		return pageTitle;
+	}
+
+	
 }

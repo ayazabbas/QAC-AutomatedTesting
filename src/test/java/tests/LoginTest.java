@@ -77,7 +77,6 @@ public class LoginTest {
 				List<String> row = sheetReader.readRow(i, "inputData");
 				username = row.get(0);
 				password = row.get(1);
-
 				homePage = new DemoHome(driver);
 				addUserPage = new DemoAddUser(driver);
 				loginPage = new DemoLogin(driver);

@@ -14,6 +14,12 @@ public class ShoppingSignIn {
 	WebElement createEmailInput;
 	@FindBy(xpath = "//*[@id=\"SubmitCreate\"]/span")
 	WebElement createButton;
+	@FindBy(xpath = "//*[@id=\"email\"]")
+	WebElement registeredEmailInput;
+	@FindBy(xpath = "//*[@id=\"passwd\"]")
+	WebElement passwordInput;
+	@FindBy(xpath = "//*[@id=\"SubmitLogin\"]/span")
+	WebElement signInButton;
 	
 	public ShoppingSignIn(WebDriver driver) {
 		this.driver = driver;
@@ -30,6 +36,18 @@ public class ShoppingSignIn {
 
 	public static String getURL() {
 		return URL;
+	}
+
+	public WebElement getRegisteredEmailInput() {
+		return registeredEmailInput;
+	}
+
+	public WebElement getPasswordInput() {
+		return passwordInput;
+	}
+
+	public WebElement getSignInButton() {
+		return signInButton;
 	}
 	
 }
